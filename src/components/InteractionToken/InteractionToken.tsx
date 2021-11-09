@@ -68,7 +68,7 @@ const InteractionToken = () => {
           </Box>
         </Box>
         <Box mt='2'>
-          <InputGroup size='sm'>
+          <InputGroup size='lg'>
             <Input
               variant='filled'
               placeholder='$ 00.0'

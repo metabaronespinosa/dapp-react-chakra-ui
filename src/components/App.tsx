@@ -32,45 +32,43 @@ const App = () => {
       .catch((err) => setError(err.message))
   }, [provider])
 
-  return (
-    <Flex
-      style={{ height: '100vh' }}
-      flexDirection='column'
-      alignItems='center'
-    >
-      <Particles
-        className='particles'
-        params={{
-          particles: {
-            number: {
-              value: 50,
-            },
-            size: {
-              value: 3,
+  return <Flex
+    style={{ height: '100vh' }}
+    flexDirection='column'
+    alignItems='center'
+  >
+    <Particles
+      className='particles'
+      params={{
+        particles: {
+          number: {
+            value: 50,
+          },
+          size: {
+            value: 3,
+          },
+        },
+        interactivity: {
+          events: {
+            onhover: {
+              enable: true,
+              mode: 'repulse',
             },
           },
-          interactivity: {
-            events: {
-              onhover: {
-                enable: true,
-                mode: 'repulse',
-              },
-            },
-          },
-        }}
-      />
-      {isConnected ? (
-        <ProviderContext.Provider value={value}>
-          <ChakraProvider>
-            <MenuTop />
-            <InteractionToken />
-          </ChakraProvider>
-        </ProviderContext.Provider>
-      ) : (
-        <div className='error_front'>{error}</div>
-      )}
-    </Flex>
-  )
+        },
+      }}
+    />
+    {isConnected ? (
+      <ProviderContext.Provider value={value}>
+        <ChakraProvider>
+          <MenuTop />
+          <InteractionToken />
+        </ChakraProvider>
+      </ProviderContext.Provider>
+    ) : (
+      <div className='error_front'>{error}</div>
+    )}
+  </Flex>
 }
 
 export default App
