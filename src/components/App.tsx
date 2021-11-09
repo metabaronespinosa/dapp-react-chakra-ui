@@ -5,11 +5,10 @@ import React, {
   createContext,
   SetStateAction
 } from 'react'
-import { ChakraProvider, Box } from '@chakra-ui/react'
+import { ChakraProvider, Flex } from '@chakra-ui/react'
 import { Provider } from '../scripts/Provider'
 import MenuTop from './MenuTop/MenuTop'
 import Particles from 'react-particles-js'
-import TableToken from './TableToken/TableToken'
 import InteractionToken from './InteractionToken/InteractionToken'
 
 import './App.scss'
@@ -34,8 +33,10 @@ const App = () => {
   }, [provider])
 
   return (
-    <Box
+    <Flex
       style={{ height: '100vh' }}
+      flexDirection='column'
+      alignItems='center'
     >
       <Particles
         className='particles'
@@ -62,14 +63,13 @@ const App = () => {
         <ProviderContext.Provider value={value}>
           <ChakraProvider>
             <MenuTop />
-            <TableToken />
             <InteractionToken />
           </ChakraProvider>
         </ProviderContext.Provider>
       ) : (
         <div className='error_front'>{error}</div>
       )}
-    </Box>
+    </Flex>
   )
 }
 

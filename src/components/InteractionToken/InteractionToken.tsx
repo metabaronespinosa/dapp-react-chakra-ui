@@ -44,11 +44,12 @@ const InteractionToken = () => {
 
   return <>
     <Box
-      maxW='sm'
+      mt='10%'
+      maxW='600'
       borderWidth='1px'
       borderRadius='lg'
       overflow='hidden'
-      bgGradient='linear-gradient(to right, #00000021, #1a202c)'
+      bgGradient='linear-gradient(to right, #00000096, #1a202c)'
     >
       <Box p='6'>
         <Box display='flex' alignItems='baseline'>
