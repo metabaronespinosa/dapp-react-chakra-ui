@@ -1,0 +1,58 @@
+{
+  "name": "defi-tutorial",
+  "version": "0.1.0",
+  "description": "DeFi Token Staking App",
+  "author": "c-money",
+  "dependencies": {
+    "@chakra-ui/react": "^1.6.12",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.3.1",
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "bootstrap": "5.1.2",
+    "chai": "4.3.4",
+    "chai-as-promised": "7.1.1",
+    "chai-bignumber": "3.0.0",
+    "ethers": "^5.4.7",
+    "framer-motion": "^4",
+    "identicon.js": "^2.3.3",
+    "node-sass": "^6.0.1",
+    "react": "^17.0.2",
+    "react-bootstrap": "1.6.4",
+    "react-dom": "17.0.2",
+    "react-particles-js": "^3.5.3",
+    "react-script": "^2.0.5",
+    "react-scripts": "4.0.3",
+    "react-tsparticles": "^1.31.2",
+    "sass-loader": "^12.1.0",
+    "solc": "^0.8.6",
+    "truffle": "^5.1.39",
+    "typescript": "^4.4.3",
+    "web3": "1.6.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "upgrade-packages": "yarn upgrade-interactive --latest",
+    "my-prettier-m": "yarn prettier --write --print-width 160 ./src/**/*.{js,ts,tsx}"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.5.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "prettier": "^2.4.1"
+  }
+}

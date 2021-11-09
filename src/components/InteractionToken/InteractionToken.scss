@@ -1,0 +1,26 @@
+.InteractionToken_123fsf {
+    width: 300px;
+
+    .container {
+        width: 100%;
+        background-color: #fafafa;
+        color: #202020;
+        padding: 10px 15px;
+
+        .top {
+            display: flex;
+
+            span:nth-child(2) {
+                margin-left: auto;
+            }
+        }
+
+        .bottom {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin: 10px;
+            font-size: 18px;
+        }
+    }   
+}
