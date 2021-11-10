@@ -35,11 +35,11 @@ const InteractionToken = () => {
   }, [provider])
 
   const handleClickDeposit = () => {
-    provider.stakeTokens(deposit).then(() => setProvider(new Provider()))
+    provider.stakeTokens(deposit)// .then(() => setProvider(new Provider()))
   }
 
   const handleClickWithdraw = () => {
-    provider.unstakeTokens().then(() => setProvider(new Provider()))
+    provider.unstakeTokens()// .then(() => setProvider(new Provider()))
   }
 
   return <>

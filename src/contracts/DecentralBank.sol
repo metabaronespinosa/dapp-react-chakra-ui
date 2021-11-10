@@ -45,12 +45,6 @@ contract DecentralBank {
         }
     }
 
-    function getUserRewards() public view returns(uint) {
-        uint stakerRewardsBalance = rewardsBalance[msg.sender];
-
-        return stakerRewardsBalance;
-    }
-
     function staking() public {
         require(msg.sender == owner, 'Caller must be the owner');
 
@@ -86,5 +80,15 @@ contract DecentralBank {
 
         stakingBalance[msg.sender] = 0;
         isStacked[msg.sender] = false;
+    }
+
+    function claimRewards() public {
+        uint balance = rewardsBalance[msg.sender];
+
+        require(balance > 0, 'Balance must be > 0');
+
+        rwd.transfer(msg.sender, balance);
+
+        rewardsBalance[msg.sender] = 0;
     }
 }

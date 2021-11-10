@@ -4,7 +4,12 @@ import React, {
   useState,
   useContext
 } from 'react'
-import { Grid, GridItem, Text } from '@chakra-ui/react'
+import {
+  Grid,
+  GridItem,
+  Text,
+  Button
+} from '@chakra-ui/react'
 import { ProviderContext } from '../App'
 
 const displayWallet = (wallet: string) =>
@@ -48,6 +53,11 @@ const MenuTop = () => {
         .then((account: string) => setAccountNumber(account))
   }, [provider])
 
+  const claimRewards = () => {
+    provider.claimRewards()
+      .then(res => console.log('Claim result: ', res))
+  }
+
   return <Grid templateColumns='repeat(5, 1fr)' gap={3} padding={5}>
     <GridItem colSpan={1} h='21'>
       <Text textAlign='left' fontSize='md'>Staking: {stakingBalance} {stakingSymbol}</Text>
@@ -56,13 +66,21 @@ const MenuTop = () => {
       <Text textAlign='left' fontSize='md'>{rwdSymbol}: {rwdBalance}</Text>
     </GridItem>
     <GridItem colSpan={1} h='21'>
-      <Text textAlign='left' fontSize='md'>Rewards: {rewardsBalance}</Text>
+      <Text as='span' textAlign='left' fontSize='md'>Rewards: {rewardsBalance}</Text>
+      {parseInt(rewardsBalance) && <Button
+        ml='3'
+        size='xs'
+        colorScheme='teal'
+        variant='outline'
+        onClick={claimRewards}
+      >
+        Claim
+      </Button>}
     </GridItem>
     <GridItem colStart={4} colEnd={6} h='21'>
       <Text textAlign='right' fontSize='md' color='tomato'>Wallet: {displayWallet(accountNumber)}</Text>
     </GridItem>
   </Grid>
-  
 }
 
 export default MenuTop

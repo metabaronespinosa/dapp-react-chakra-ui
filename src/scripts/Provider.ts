@@ -196,13 +196,23 @@ export class Provider {
     console.debug('unstakeTokens::transferResult', transferResult)
   }
 
+  public async claimRewards() {
+    if (!this.contracts.decentralBank) return
+
+    console.debug(this.contracts.decentralBank?.address)
+
+    const transferResult = await this.contracts.decentralBank.claimRewards()
+    console.debug('claimRewards::claimResult', transferResult)
+  }
+
   public async getAccountNumber(): Promise<string> {
     if (!this.provider) {
       return ''
     }
 
-    const accounts = await this.provider.listAccounts()
-    return accounts[0]
+    const [account] = await this.provider.listAccounts()
+
+    return account
   }
 
   public async getAccountBalance(): Promise<number> {
