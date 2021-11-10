@@ -5,7 +5,15 @@ import React, {
   createContext,
   SetStateAction
 } from 'react'
-import { ChakraProvider, Flex } from '@chakra-ui/react'
+import {
+  ChakraProvider,
+  Flex,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  // AlertDescription,
+  CloseButton
+} from '@chakra-ui/react'
 import { Provider } from '../scripts/Provider'
 import MenuTop from './MenuTop/MenuTop'
 import Particles from 'react-particles-js'
@@ -18,11 +26,28 @@ export const ProviderContext = createContext({
   setProvider: {} as React.Dispatch<SetStateAction<Provider>>,
 })
 
+const NETWORK_ID = '5777'
+
 const App = () => {
   const [isConnected, setIsConnected] = useState(false)
-  const [error, setError] = useState('Connect your Metamask')
+  const [error, setError] = useState('')
   const [provider, setProvider] = useState<Provider>(new Provider())
   const value = { provider, setProvider }
+
+  // Will move this code to an external custom hook
+  useEffect(() => {
+    window.ethereum.on('networkChanged', (networkId: string) => {
+      if (networkId === NETWORK_ID)
+        setError('')
+      if (networkId !== NETWORK_ID)
+        setError('Wrong network...')
+    })
+
+    window.ethereum.on('accountsChanged', function (accounts: string[]) {
+      // Load new account
+      console.log('accountsChanges', accounts);
+    })
+  }, [])
 
   useEffect(() => {
     setIsConnected(false)
@@ -65,9 +90,18 @@ const App = () => {
           <InteractionToken />
         </ChakraProvider>
       </ProviderContext.Provider>
-    ) : (
-      <div className='error_front'>{error}</div>
-    )}
+    ) : null}
+    {error !== '' && <Alert status='error'>
+        <AlertIcon />
+        <AlertTitle mr={2}>{error}</AlertTitle>
+        {/* <AlertDescription>Your Chakra experience may be degraded.</AlertDescription> */}
+        <CloseButton
+          position='absolute'
+          right='8px'
+          top='8px'
+          onClick={() => setError('')}
+        />
+      </Alert>}
   </Flex>
 }
 

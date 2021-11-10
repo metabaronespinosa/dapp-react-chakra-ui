@@ -8,6 +8,12 @@ import DecentralBank from '../truffle_abis/DecentralBank.json'
 
 import { sleep } from './utils'
 
+declare global {
+  interface Window {
+    ethereum: any
+  }
+}
+
 interface ExternalProviderExtended extends ExternalProvider {
   networkVersion?: string
 }
@@ -22,12 +28,12 @@ export class Provider {
   } = {
     tether: null,
     rwd: null,
-    decentralBank: null,
+    decentralBank: null
   }
 
   public constructor() {
-    this.provider = (window as any).ethereum 
-      ? new ethers.providers.Web3Provider((window as any).ethereum)
+    this.provider = window.ethereum 
+      ? new ethers.providers.Web3Provider(window.ethereum)
       : null
   }
 
@@ -40,7 +46,7 @@ export class Provider {
     return new Promise((resolve, rejected) => {
       const _rejected = () => {
         rejected({
-          message: 'Metamask not loaded...',
+          message: 'Metamask not loaded...'
         })
       }
 
@@ -51,7 +57,11 @@ export class Provider {
 
       const signer = this.provider.getSigner()
 
-      const loadContractsPromise = async (retry_ws: number, resolve: (success: boolean) => void, rejected: (reason?: any) => void) => {
+      const loadContractsPromise = async (
+        retry_ws: number,
+        resolve: (success: boolean) => void,
+        rejected: (reason?: any) => void
+      ) => {
         // NetID Can be a little bit long to load
         await sleep(1 * 1000 * 0.3)
 
@@ -81,12 +91,15 @@ export class Provider {
           const tetherData = Tether.networks[netID as keyof typeof Tether.networks]
           const rwdData = RWD.networks[netID as keyof typeof RWD.networks]
           const decentralBankData = DecentralBank.networks[netID as keyof typeof DecentralBank.networks]
+
           if (tetherData) {
             this.contracts.tether = new ethers.Contract(tetherData.address, Tether.abi, signer)
           }
+
           if (rwdData) {
             this.contracts.rwd = new ethers.Contract(rwdData.address, RWD.abi, signer)
           }
+
           if (decentralBankData) {
             this.contracts.decentralBank = new ethers.Contract(decentralBankData.address, DecentralBank.abi, signer)
           }
@@ -112,7 +125,7 @@ export class Provider {
 
     return {
       balance,
-      symbol,
+      symbol
     }
   }
 
@@ -127,7 +140,7 @@ export class Provider {
 
     return {
       balance,
-      symbol,
+      symbol
     }
   }
 
