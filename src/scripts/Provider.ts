@@ -129,6 +129,21 @@ export class Provider {
     }
   }
 
+  public async getStakingRewards(): Promise<{ balance: string; symbol: string } | null> {
+    if (!this.contracts.decentralBank || !this.contracts.rwd) return null
+
+    const account = await this.getAccountNumber()
+    const rewards = await this.contracts.decentralBank.rewardsBalance(account)
+
+    const balance = Web3.utils.fromWei(rewards.toString(), 'ether')
+    const symbol = await this.contracts.rwd.symbol()
+
+    return {
+      balance,
+      symbol
+    }
+  }
+
   public async getRWD(): Promise<{ balance: string; symbol: string } | null> {
     if (!this.contracts.rwd) return null
 

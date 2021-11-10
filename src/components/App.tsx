@@ -43,9 +43,9 @@ const App = () => {
         setError('Wrong network...')
     })
 
-    window.ethereum.on('accountsChanged', function (accounts: string[]) {
+    window.ethereum.on('accountsChanged', (accounts: string[]) => {
       // Load new account
-      console.log('accountsChanges', accounts);
+      console.log('accountsChanges', accounts)
     })
   }, [])
 
