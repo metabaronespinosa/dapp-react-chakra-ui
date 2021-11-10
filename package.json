@@ -4,6 +4,7 @@
   "description": "DeFi Token Staking App",
   "author": "c-money",
   "dependencies": {
+    "@chakra-ui/alert": "^1.2.9",
     "@chakra-ui/react": "^1.6.12",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
