@@ -14,13 +14,12 @@ declare global {
   }
 }
 
-interface ExternalProviderExtended extends ExternalProvider {
+export interface ExternalProviderExtended extends ExternalProvider {
   networkVersion?: string
 }
 
 export class Provider {
   private provider: ethers.providers.Web3Provider | null
-  private _isConnected = false
   private contracts: {
     tether: ethers.Contract | null
     rwd: ethers.Contract | null
@@ -103,8 +102,6 @@ export class Provider {
           if (decentralBankData) {
             this.contracts.decentralBank = new ethers.Contract(decentralBankData.address, DecentralBank.abi, signer)
           }
-
-          this._isConnected = true
 
           resolve(true)
         }
@@ -224,9 +221,5 @@ export class Provider {
     const balanceBig = await this.provider.getBalance(account)
 
     return parseFloat(ethers.utils.formatEther(balanceBig))
-  }
-
-  public get isConnected() {
-    return this._isConnected
   }
 }

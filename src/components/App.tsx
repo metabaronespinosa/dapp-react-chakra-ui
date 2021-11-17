@@ -7,17 +7,15 @@ import React, {
 } from 'react'
 import {
   ChakraProvider,
-  Flex,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  // AlertDescription,
-  CloseButton
+  Flex
 } from '@chakra-ui/react'
+
 import { Provider } from '../scripts/Provider'
 import MenuTop from './MenuTop/MenuTop'
-import Particles from 'react-particles-js'
+import Particles from './Particles'
 import InteractionToken from './InteractionToken/InteractionToken'
+import Alert from './Alert'
+import { useWeb3 } from './hooks'
 
 import './App.scss'
 
@@ -26,82 +24,38 @@ export const ProviderContext = createContext({
   setProvider: {} as React.Dispatch<SetStateAction<Provider>>,
 })
 
-const NETWORK_ID = '5777'
-
 const App = () => {
   const [isConnected, setIsConnected] = useState(false)
-  const [error, setError] = useState('')
+  const { loading, loaded, error: web3Error } = useWeb3()
+  const [error, setError] = useState<string>('')
   const [provider, setProvider] = useState<Provider>(new Provider())
   const value = { provider, setProvider }
 
-  // Will move this code to an external custom hook
   useEffect(() => {
-    window.ethereum.on('networkChanged', (networkId: string) => {
-      if (networkId === NETWORK_ID)
-        setError('')
-      if (networkId !== NETWORK_ID)
-        setError('Wrong network...')
-    })
+    if (loaded)
+      provider.loadContracts()
+        .then(() => setIsConnected(true))
+        .catch(err => setError(err.message))
+  }, [loaded, provider])
 
-    window.ethereum.on('accountsChanged', (accounts: string[]) => {
-      // Load new account
-      console.log('accountsChanges', accounts)
-    })
-  }, [])
-
-  useEffect(() => {
-    setIsConnected(false)
-
-    provider.loadContracts()
-      .then(() => setIsConnected(true))
-      .catch((err) => setError(err.message))
-  }, [provider])
+  if (loading) return null
 
   return <Flex
     style={{ height: '100vh' }}
     flexDirection='column'
     alignItems='center'
   >
-    <Particles
-      className='particles'
-      params={{
-        particles: {
-          number: {
-            value: 50,
-          },
-          size: {
-            value: 3,
-          },
-        },
-        interactivity: {
-          events: {
-            onhover: {
-              enable: true,
-              mode: 'repulse',
-            },
-          },
-        },
-      }}
-    />
-    {isConnected ? (
+    <Particles />
       <ProviderContext.Provider value={value}>
         <ChakraProvider>
-          <MenuTop />
-          <InteractionToken />
+          <Alert
+            error={error || web3Error}
+            onError={setError}
+          />
+          <MenuTop isConnected={isConnected} />
+          <InteractionToken isConnected={isConnected} />
         </ChakraProvider>
       </ProviderContext.Provider>
-    ) : null}
-    {error !== '' && <Alert status='error'>
-        <AlertIcon />
-        <AlertTitle mr={2}>{error}</AlertTitle>
-        {/* <AlertDescription>Your Chakra experience may be degraded.</AlertDescription> */}
-        <CloseButton
-          position='absolute'
-          right='8px'
-          top='8px'
-          onClick={() => setError('')}
-        />
-      </Alert>}
   </Flex>
 }
 

@@ -15,7 +15,7 @@ import { ProviderContext } from '../App'
 const displayWallet = (wallet: string) =>
   `${wallet.substr(0, 4)}....${wallet.substr(-4)}`
 
-const MenuTop = () => {
+const MenuTop = ({ isConnected }: { isConnected: boolean }) => {
   const [accountNumber, setAccountNumber] = useState<string>('')
   const { provider } = useContext(ProviderContext)
   const [stakingBalance, setStakingBalance] = useState<string>('')
@@ -26,7 +26,7 @@ const MenuTop = () => {
   const [rwdSymbol, setRwdSymbol] = useState<string>('')
 
   useEffect(() => {
-    if (provider.isConnected) {
+    if (isConnected) {
       provider.getStakingBalance().then((_staking: { balance: string; symbol: string } | null) => {
         if (_staking) {
           setStakingBalance(_staking.balance)
@@ -45,13 +45,13 @@ const MenuTop = () => {
         if (_res) setRewardsBalance(_res.balance)
       })
     }
-  }, [provider])
+  }, [isConnected, provider])
 
   useEffect(() => {
-    if (provider.isConnected)
+    if (isConnected)
       provider.getAccountNumber()
         .then((account: string) => setAccountNumber(account))
-  }, [provider])
+  }, [isConnected, provider])
 
   const claimRewards = () => {
     provider.claimRewards()

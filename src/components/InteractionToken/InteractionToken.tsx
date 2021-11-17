@@ -17,14 +17,14 @@ import {
 import { ProviderContext } from '../App'
 import { Provider } from '../../scripts/Provider'
 
-const InteractionToken = () => {
+const InteractionToken = ({ isConnected }: { isConnected: boolean }) => {
   const { provider, setProvider } = useContext(ProviderContext)
   const [tetherBalance, setTetherBalance] = useState<string>('')
   const [tetherSymbol, setTetherSymbol] = useState<string>('')
   const [deposit, setDeposit] = useState<string>('0')
 
   useEffect(() => {
-    if (provider.isConnected) {
+    if (isConnected) {
       provider.getTether().then((_tether: { balance: string; symbol: string } | null) => {
         if (_tether) {
           setTetherBalance(_tether.balance)
