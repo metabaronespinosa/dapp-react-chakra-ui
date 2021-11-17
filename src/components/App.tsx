@@ -3,7 +3,8 @@ import React, {
   useEffect,
   useState,
   createContext,
-  SetStateAction
+  SetStateAction,
+  useRef
 } from 'react'
 import {
   ChakraProvider,
@@ -30,6 +31,7 @@ const App = () => {
   const [error, setError] = useState<string>('')
   const [provider, setProvider] = useState<Provider>(new Provider())
   const value = { provider, setProvider }
+  let lastWeb3Error = useRef(web3Error)
 
   useEffect(() => {
     if (loaded)
@@ -37,6 +39,18 @@ const App = () => {
         .then(() => setIsConnected(true))
         .catch(err => setError(err.message))
   }, [loaded, provider])
+
+  useEffect(() => {
+    if (web3Error !== lastWeb3Error.current) {
+      setProvider(new Provider())
+
+      provider.loadContracts()
+        .then(() => setIsConnected(true))
+        .catch(err => setError(err.message))
+    }
+  }, [web3Error, provider])
+
+  lastWeb3Error.current = web3Error
 
   if (loading) return null
 
