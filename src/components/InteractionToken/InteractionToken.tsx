@@ -32,7 +32,7 @@ const InteractionToken = ({ isConnected }: { isConnected: boolean }) => {
         }
       })
     }
-  }, [provider])
+  }, [isConnected, provider])
 
   const handleClickDeposit = () => {
     provider.stakeTokens(deposit)// .then(() => setProvider(new Provider()))
